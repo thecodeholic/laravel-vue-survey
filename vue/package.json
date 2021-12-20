@@ -11,6 +11,7 @@
     "@heroicons/vue": "^1.0.5",
     "@tailwindcss/forms": "^0.4.0",
     "vue": "^3.2.25",
+    "vue-router": "^4.0.12",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
