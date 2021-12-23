@@ -1,25 +1,32 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <header class="bg-white shadow">
-    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-      <h1 class="text-3xl font-bold text-gray-900">
-        Surveys
-      </h1>
-    </div>
-  </header>
-  <main>
-    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <!-- Replace with your content -->
-      <div class="px-4 py-6 sm:px-0">
-        Content goes here
-      </div>
-      <!-- /End replace -->
-    </div>
-  </main>
+  <PageComponent title="Surveys">
+    <router-link
+      v-for="survey in surveys"
+      :key="survey.id"
+      :to="{ name: 'SurveyView', params: { id: survey.id } }"
+      class="
+        block
+        py-4
+        px-6
+        shadow-md
+        bg-white
+        mb-5
+        rounded-md
+        hover:bg-blue-50
+        cursor-pointer
+      "
+    >
+      <h4 class="text-lg font-bold">{{ survey.title }}</h4>
+      <div v-html="survey.description"></div>
+    </router-link>
+  </PageComponent>
 </template>
 
-<script>
+<script setup>
+import store from "../store";
+import { computed } from "vue";
+import PageComponent from "../components/PageComponent.vue";
 
-export default {
-}
+const surveys = computed(() => store.state.surveys);
 </script>
