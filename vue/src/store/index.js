@@ -111,7 +111,7 @@ const store = createStore({
         id: 2,
         title: "Laravel 8",
         slug: "laravel-8",
-        status: "draft",
+        status: "active",
         image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1200px-Laravel.svg.png',
         description: `Laravel is a web application framework with expressive, elegant syntax. We’ve already laid the foundation — freeing you to create without sweating the small things.`,
         created_at: "2021-12-20 18:00:00",
