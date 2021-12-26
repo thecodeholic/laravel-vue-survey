@@ -109,7 +109,7 @@
         id="question_type"
         name="question_type"
         v-model="questionData.type"
-        @change="dataChange"
+        @change="typeChange"
         class="
           mt-1
           block
@@ -279,6 +279,16 @@ const questionTypes = computed(() => store.state.questionTypes);
 
 function upperCaseFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function typeChange() {
+  if (shouldHaveOptions()) {
+    questionData.value.data = {
+      ...questionData.value.data,
+      options: []
+    }
+  }
+  dataChange();
 }
 
 // Emit the data change
