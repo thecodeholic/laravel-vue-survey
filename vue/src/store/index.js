@@ -96,14 +96,14 @@ const store = createStore({
             type: 'text',
             question: 'What\'s your favourite YouTube channel?',
             description: null,
-            data: null
+            data: {}
           },
           {
             id: 7,
             type: 'textarea',
             question: 'What do you think about TheCodeholic channel?',
             description: 'Write your honest opinion. Everything is anonymous.',
-            data: null
+            data: {}
           },
         ]
       },
