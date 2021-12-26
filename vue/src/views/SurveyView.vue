@@ -13,7 +13,14 @@
                     Image
                   </label>
                   <div class="mt-1 flex items-center">
+                    <img
+                      v-if="surveyData.image"
+                      :src="surveyData.image"
+                      :alt="surveyData.title"
+                      class="w-64 h-48 object-cover"
+                    />
                     <span
+                      v-else
                       class="
                         flex
                         items-center
@@ -303,9 +310,8 @@ const survey = computed(() =>
 
 const surveyData = ref({
   ...survey.value,
-  status: survey.value.status !== 'draft'
+  status: survey.value.status !== "draft",
 });
-
 
 function addQuestion(index) {
   const newQuestion = {
