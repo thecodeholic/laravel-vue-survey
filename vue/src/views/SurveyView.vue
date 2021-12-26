@@ -189,9 +189,54 @@
               <!--/ Survey Fields -->
 
               <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
-                <h3 class="text-2xl font-semibold">Questions</h3>
-                <div v-for="(question, index) in survey.questions" :key="question.id">
-                  <QuestionEditor :question="question" :index="index" />
+                <h3 class="text-2xl font-semibold flex items-center justify-between">
+                  Questions
+
+                  <!-- Add new question -->
+                  <button
+                    type="button"
+                    @click="addQuestion()"
+                    class="
+                      flex
+                      items-center
+                      text-sm
+                      py-1
+                      px-4
+                      rounded-sm
+                      text-white
+                      bg-gray-600
+                      hover:bg-gray-700
+                    "
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-4 w-4"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    Add Question
+                  </button>
+                  <!--/ Add new question -->
+                </h3>
+                <div v-if="!survey.questions.length" class="text-center text-gray-600">
+                  You don't have any questions created
+                </div>
+                <div
+                  v-for="(question, index) in survey.questions"
+                  :key="question.id"
+                >
+                  <QuestionEditor
+                    :question="question"
+                    :index="index"
+                    @addQuestion="addQuestion"
+                    @deleteQuestion="deleteQuestion"
+                  />
                 </div>
               </div>
 
@@ -233,7 +278,7 @@ import { computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import store from "../store";
 import PageComponent from "../components/PageComponent.vue";
-import QuestionEditor from '../components/editor/QuestionEditor.vue'
+import QuestionEditor from "../components/editor/QuestionEditor.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -241,6 +286,21 @@ const route = useRoute();
 const survey = computed(() =>
   store.state.surveys.find((s) => s.id === parseInt(route.params.id))
 );
+
+function addQuestion(index) {
+  const newQuestion = {
+    type: "text",
+    question: "",
+    description: null,
+    data: {},
+  };
+
+  survey.value.questions.splice(index, 0, newQuestion);
+}
+
+function deleteQuestion(question) {
+  survey.value.questions = survey.value.questions.filter((q) => q !== question);
+}
 </script>
 
 <style></style>
