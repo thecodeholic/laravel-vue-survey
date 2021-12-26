@@ -1,8 +1,76 @@
 <template>
   <!-- Question index -->
-  <h3 class="text-lg font-bold">
-    {{ index + 1 }}. {{ questionData.question }}
-  </h3>
+  <div class="flex items-center justify-between">
+    <h3 class="text-lg font-bold">{{ index + 1 }}. {{ questionData.question }}</h3>
+
+    <div class="flex items-center">
+      <!-- Add new question -->
+      <button
+        type="button"
+        @click="addQuestion()"
+        class="
+          flex
+          items-center
+          text-xs
+          py-1
+          px-3
+          mr-2
+          rounded-sm
+          text-white
+          bg-gray-600
+          hover:bg-gray-700
+        "
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Add
+      </button>
+      <!--/ Add new question -->
+
+      <!-- Delete question -->
+      <button
+        type="button"
+        @click="deleteQuestion()"
+        class="
+          flex
+          items-center
+          text-xs
+          py-1
+          px-3
+          rounded-sm
+          border
+          border-transparent
+          text-red-500
+          hover:border-red-600
+        "
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Delete
+      </button>
+      <!--/ Delete question -->
+    </div>
+  </div>
   <!--/ Question index -->
   <div class="grid gap-3 grid-cols-12">
     <!-- Question -->
@@ -108,8 +176,8 @@
             px-2
             rounded-sm
             text-white
-            bg-indigo-600
-            hover:bg-indigo-700
+            bg-gray-600
+            hover:bg-gray-700
           "
         >
           <svg
@@ -124,11 +192,14 @@
               clip-rule="evenodd"
             />
           </svg>
-          add
+          Add Option
         </button>
         <!--/ Add new option -->
       </h4>
 
+      <div v-if="!questionData.data.options.length" class="text-xs text-gray-600 text-center py-3">
+        You don't have any options defined
+      </div>
       <!-- Option list -->
       <div
         v-for="(option, index) in questionData.data.options"
@@ -150,6 +221,7 @@
             focus:border-indigo-500
           "
         />
+        <!-- Delete Option -->
         <button
           type="button"
           @click="removeOption(option)"
@@ -178,6 +250,7 @@
             />
           </svg>
         </button>
+        <!--/ Delete Option -->
       </div>
       <!--/ Option list -->
     </div>
@@ -197,7 +270,7 @@ const props = defineProps({
   index: Number,
 });
 
-const emit = defineEmits(["change"]);
+const emit = defineEmits(["change", "addQuestion", "deleteQuestion"]);
 
 const questionData = ref({ ...props.question });
 
@@ -210,7 +283,7 @@ function upperCaseFirst(str) {
 
 // Emit the data change
 function dataChange() {
-  const data = questionData.value;
+  const data = JSON.parse(JSON.stringify(questionData.value));
   if (!shouldHaveOptions()) {
     delete data.data.options;
   }
@@ -226,14 +299,27 @@ function shouldHaveOptions() {
 
 // Add option
 function addOption() {
-  questionData.value.data.options = [...questionData.value.data.options, { uuid: uuidv4(), text: "" }];
+  questionData.value.data.options = [
+    ...questionData.value.data.options,
+    { uuid: uuidv4(), text: "" },
+  ];
   dataChange();
 }
 
 // Remove option
 function removeOption(op) {
-  questionData.value.data.options = questionData.value.data.options.filter((opt) => opt !== op);
+  questionData.value.data.options = questionData.value.data.options.filter(
+    (opt) => opt !== op
+  );
   dataChange();
+}
+
+function addQuestion() {
+  emit("addQuestion", props.index + 1);
+}
+
+function deleteQuestion() {
+  emit("deleteQuestion", props.question);
 }
 </script>
 
