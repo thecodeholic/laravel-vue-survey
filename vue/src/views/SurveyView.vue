@@ -4,10 +4,10 @@
     <template v-slot:header>
       <div class="flex items-center justify-between">
         <h1 class="text-3xl font-bold text-gray-900">
-          {{ surveyData.id ? surveyData.title : "Create a Survey" }}
+          {{ model.id ? model.title : "Create a Survey" }}
         </h1>
         <button
-          v-if="surveyData.id"
+          v-if="model.id"
           type="button"
           @click="deleteSurvey()"
           class="py-2 px-3 text-white bg-red-500 rounded-md hover:bg-red-600"
@@ -39,9 +39,9 @@
             </label>
             <div class="mt-1 flex items-center">
               <img
-                v-if="surveyData.image"
-                :src="surveyData.image"
-                :alt="surveyData.title"
+                v-if="model.image"
+                :src="model.image"
+                :alt="model.title"
                 class="w-64 h-48 object-cover"
               />
               <span
@@ -120,7 +120,7 @@
               type="text"
               name="title"
               id="title"
-              v-model="surveyData.title"
+              v-model="model.title"
               autocomplete="survey_title"
               class="
                 mt-1
@@ -146,7 +146,7 @@
                 id="description"
                 name="description"
                 rows="3"
-                v-model="surveyData.description"
+                v-model="model.description"
                 autocomplete="survey_description"
                 class="
                   shadow-sm
@@ -175,7 +175,7 @@
               type="date"
               name="expire_date"
               id="expire_date"
-              v-model="surveyData.expire_date"
+              v-model="model.expire_date"
               class="
                 mt-1
                 focus:ring-indigo-500 focus:border-indigo-500
@@ -197,7 +197,7 @@
                 id="status"
                 name="status"
                 type="checkbox"
-                v-model="surveyData.status"
+                v-model="model.status"
                 class="
                   focus:ring-indigo-500
                   h-4
@@ -255,13 +255,13 @@
             <!--/ Add new question -->
           </h3>
           <div
-            v-if="!surveyData.questions.length"
+            v-if="!model.questions.length"
             class="text-center text-gray-600"
           >
             You don't have any questions created
           </div>
           <div
-            v-for="(question, index) in surveyData.questions"
+            v-for="(question, index) in model.questions"
             :key="question.id"
           >
             <QuestionEditor
@@ -319,7 +319,7 @@ const route = useRoute();
 const surveyLoading = computed(() => store.state.currentSurvey.loading);
 
 // Create empty survey
-let surveyData = ref({
+let model = ref({
   title: "",
   status: false,
   description: null,
@@ -328,11 +328,11 @@ let surveyData = ref({
   questions: [],
 });
 
-// Watch to current survey data change and when this happens we update local surveyData
+// Watch to current survey data change and when this happens we update local model
 watch(
   () => store.state.currentSurvey.data,
   (newVal, oldVal) => {
-    surveyData.value = {
+    model.value = {
       ...JSON.parse(JSON.stringify(newVal)),
       status: newVal.status !== "draft",
     };
@@ -353,17 +353,17 @@ function addQuestion(index) {
     data: {},
   };
 
-  surveyData.value.questions.splice(index, 0, newQuestion);
+  model.value.questions.splice(index, 0, newQuestion);
 }
 
 function deleteQuestion(question) {
-  surveyData.value.questions = surveyData.value.questions.filter(
+  model.value.questions = model.value.questions.filter(
     (q) => q !== question
   );
 }
 
 function questionChange(question) {
-  surveyData.value.questions = surveyData.value.questions.map((q) => {
+  model.value.questions = model.value.questions.map((q) => {
     if (q.id === question.id) {
       return JSON.parse(JSON.stringify(question));
     }
@@ -375,7 +375,7 @@ function questionChange(question) {
  * Create or update survey
  */
 function saveSurvey() {
-  store.dispatch("saveSurvey", surveyData.value).then(({ data }) => {
+  store.dispatch("saveSurvey", model.value).then(({ data }) => {
     router.push({
       name: "SurveyView",
       params: { id: data.data.id },
@@ -389,7 +389,7 @@ function deleteSurvey() {
       `Are you sure you want to delete this survey? Operation can't be undone!!`
     )
   ) {
-    store.dispatch("deleteSurvey", surveyData.value.id).then(() => {
+    store.dispatch("deleteSurvey", model.value.id).then(() => {
       router.push({
         name: "Surveys",
       });
