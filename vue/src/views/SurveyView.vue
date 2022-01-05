@@ -307,11 +307,12 @@
 <script setup>
 import { v4 as uuidv4 } from "uuid";
 import { computed, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import store from "../store";
 import PageComponent from "../components/PageComponent.vue";
 import QuestionEditor from "../components/editor/QuestionEditor.vue";
-import router from "../router";
+
+const router = useRouter()
 
 const route = useRoute();
 
