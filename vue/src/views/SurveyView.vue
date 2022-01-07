@@ -348,7 +348,7 @@ if (route.params.id) {
 }
 
 function onImageChoose(ev) {
-  model.value.imageFile = ev.target.files[0];
+  const file = ev.target.files[0];
 
   const reader = new FileReader();
   reader.onload = () => {
@@ -359,7 +359,7 @@ function onImageChoose(ev) {
     model.value.image_url = reader.result;
     ev.target.value = '';
   }
-  reader.readAsDataURL(model.value.imageFile)
+  reader.readAsDataURL(file)
 }
 
 function addQuestion(index) {
