@@ -37,6 +37,13 @@ class SurveyController extends Controller
     public function store(StoreSurveyRequest $request)
     {
         $data = $request->validated();
+
+        // Check if image was given and save on local file system
+        if (isset($data['image'])) {
+            $relativePath  = $this->saveImage($data['image']);
+            $data['image'] = $relativePath;
+        }
+
         $survey = Survey::create($data);
         foreach ($data['questions'] as $question) {
             $question['survey_id'] = $survey->id;
