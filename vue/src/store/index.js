@@ -7,7 +7,7 @@ const tmpSurveys = [
     title: "TheCodeholic YouTube channel content",
     slug: "thecodeholic-youtube-channel-content",
     status: "draft",
-    image:
+    image_url:
       "https://pbs.twimg.com/profile_images/1118059535003017221/9ZwEYqj2_400x400.png",
     description:
       "My name is Zura.<br>I am Web Developer with 9+ years of experience, free educational content creator, CTO, Lecturer and father of two wonderful daughters.<br><br>The purpose of the channel is to share my several years of experience with beginner developers.<br>Teach them what I know and make my experience as a lesson for others.",
@@ -168,7 +168,7 @@ const tmpSurveys = [
     title: "Laravel 8",
     slug: "laravel-8",
     status: "active",
-    image:
+    image_url:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1200px-Laravel.svg.png",
     description: `Laravel is a web application framework with expressive, elegant syntax. We’ve already laid the foundation — freeing you to create without sweating the small things.`,
     created_at: "2021-12-20 18:00:00",
@@ -181,7 +181,7 @@ const tmpSurveys = [
     title: "Vue 3",
     slug: "vue-3",
     status: "active",
-    image:
+    image_url:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1184px-Vue.js_Logo_2.svg.png",
     description: `Vue (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. Unlike other monolithic frameworks, Vue is designed from the ground up to be incrementally adoptable.`,
     created_at: "2021-12-21 17:00:00",
@@ -194,7 +194,7 @@ const tmpSurveys = [
     title: "Tailwind 3",
     slug: "tailwind-3",
     status: "active",
-    image:
+    image_url:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tailwind_CSS_Logo.svg/2048px-Tailwind_CSS_Logo.svg.png",
     description: `A utility-first CSS framework packed with classes like <code>flex</code>, <code>pt-4</code>, <code>text-center</code> and <code>rotate-90</code> that can be composed to build any design, directly in your markup.`,
     created_at: "2021-12-21 14:00:00",
