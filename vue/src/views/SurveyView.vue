@@ -364,6 +364,11 @@ function deleteQuestion(question) {
 }
 
 function questionChange(question) {
+  // Important to explicitelly assign question.data.options, because otherwise it is a Proxy object
+  // and it is lost in JSON.stringify()
+  if (question.data.options) {
+    question.data.options = [...question.data.options];
+  }
   model.value.questions = model.value.questions.map((q) => {
     if (q.id === question.id) {
       return JSON.parse(JSON.stringify(question));
