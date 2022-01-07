@@ -17,7 +17,7 @@ class SurveyResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'image' => URL::to($this->image),
+            'image_url' => URL::to($this->image),
             'title' => $this->title,
             'slug' => $this->slug,
             'status' => $this->status !== 'draft',

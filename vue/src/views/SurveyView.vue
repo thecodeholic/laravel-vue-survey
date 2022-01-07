@@ -39,8 +39,8 @@
             </label>
             <div class="mt-1 flex items-center">
               <img
-                v-if="model.image"
-                :src="model.image"
+                v-if="model.image_url"
+                :src="model.image_url"
                 :alt="model.title"
                 class="w-64 h-48 object-cover"
               />
@@ -95,6 +95,7 @@
               >
                 <input
                   type="file"
+                  @change="onImageChoose"
                   class="
                     absolute
                     left-0
@@ -325,6 +326,7 @@ let model = ref({
   status: false,
   description: null,
   image: null,
+  image_url: null,
   expire_date: null,
   questions: [],
 });
@@ -343,6 +345,21 @@ watch(
 // If the current component is rendered on survey update route we make a request to fetch survey
 if (route.params.id) {
   store.dispatch("getSurvey", route.params.id);
+}
+
+function onImageChoose(ev) {
+  model.value.imageFile = ev.target.files[0];
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    // The field to send on backend and apply validations
+    model.value.image = reader.result;
+
+    // The field to display here
+    model.value.image_url = reader.result;
+    ev.target.value = '';
+  }
+  reader.readAsDataURL(model.value.imageFile)
 }
 
 function addQuestion(index) {
@@ -382,6 +399,7 @@ function questionChange(question) {
  */
 function saveSurvey() {
   store.dispatch("saveSurvey", model.value).then(({ data }) => {
+
     router.push({
       name: "SurveyView",
       params: { id: data.data.id },

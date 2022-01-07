@@ -264,7 +264,7 @@ const store = createStore({
           .put(`/survey/${survey.id}`, survey)
           .then((res) => {
             commit("updateSurvey", res.data);
-            commit('setCurrentSurvey', res.data);
+            commit('setCurrentSurvey', res.data)
             return res;
           });
       } else {
