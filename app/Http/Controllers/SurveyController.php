@@ -45,6 +45,8 @@ class SurveyController extends Controller
         }
 
         $survey = Survey::create($data);
+
+        // Create new questions
         foreach ($data['questions'] as $question) {
             $question['survey_id'] = $survey->id;
             $this->createQuestion($question);
@@ -89,19 +91,27 @@ class SurveyController extends Controller
         // Update survey in the database
         $survey->update($data);
 
+        // Get ids as plain array of existing questions
         $existingIds = $survey->questions()->pluck('id')->toArray();
+        // Get ids as plain array of new questions
         $newIds = Arr::pluck($data['questions'], 'id');
+        // Find questions to delete
         $toDelete = array_diff($existingIds, $newIds);
+        //Find questions to add
         $toAdd = array_diff($newIds, $existingIds);
 
+        // Delete questions by $toDelete array
         SurveyQuestion::destroy($toDelete);
 
+        // Create new questions
         foreach ($data['questions'] as $question) {
             if (in_array($question['id'], $toAdd)) {
                 $question['survey_id'] = $survey->id;
                 $this->createQuestion($question);
             }
         }
+
+        // Update existing questions
         $questionMap = collect($data['questions'])->keyBy('id');
         foreach ($survey->questions as $question) {
             if (isset($questionMap[$question->id])) {
@@ -200,10 +210,14 @@ class SurveyController extends Controller
      */
     private function saveImage($image)
     {
+        // Check if image is valid base64 string
         if (preg_match('/^data:image\/(\w+);base64,/', $image, $type)) {
+            // Take out the base64 encoded text without mime type
             $image = substr($image, strpos($image, ',') + 1);
+            // Get file extension
             $type = strtolower($type[1]); // jpg, png, gif
 
+            // Check if file is an image
             if (!in_array($type, ['jpg', 'jpeg', 'gif', 'png'])) {
                 throw new \Exception('invalid image type');
             }
