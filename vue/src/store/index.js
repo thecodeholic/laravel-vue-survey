@@ -17,6 +17,11 @@ const store = createStore({
       loading: false,
     },
     questionTypes: ["text", "select", "radio", "checkbox", "textarea"],
+    notification: {
+      show: false,
+      type: 'success',
+      message: ''
+    }
   },
   getters: {},
   actions: {
@@ -113,8 +118,13 @@ const store = createStore({
     setCurrentSurvey: (state, survey) => {
       state.currentSurvey.data = survey.data;
     },
-    saveSurvey: (state, survey) => {
-      state.surveys = [...state.surveys, survey.data];
+    notify: (state, {message, type}) => {
+      state.notification.show = true;
+      state.notification.type = type;
+      state.notification.message = message;
+      setTimeout(() => {
+        state.notification.show = false;
+      }, 3000)
     },
   },
   modules: {},

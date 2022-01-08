@@ -214,6 +214,7 @@
         <span class="w-6 text-sm"> {{ index + 1 }}. </span>
         <input
           type="text"
+          tabindex="1"
           v-model="option.text"
           @change="dataChange"
           class="
