@@ -16,9 +16,9 @@ class CreateSurveysTable extends Migration
         Schema::create('surveys', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\User::class, 'user_id');
+            $table->string('image', 255);
             $table->string('title', 1000);
             $table->string('slug', 1000);
-            $table->string('image', 2000);
             $table->tinyInteger('status');
             $table->text('description')->nullable();
             $table->timestamps();
