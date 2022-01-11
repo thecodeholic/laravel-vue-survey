@@ -20,10 +20,7 @@
     </p>
   </div>
   <form class="mt-8 space-y-6" @submit="login">
-    <div
-      v-if="errorMsg"
-      class="flex items-center justify-between py-3 px-5 bg-red-500 text-white rounded"
-    >
+    <Alert v-if="errorMsg">
       {{ errorMsg }}
       <span
         @click="errorMsg = ''"
@@ -44,7 +41,7 @@
           />
         </svg>
       </span>
-    </div>
+    </Alert>
     <input type="hidden" name="remember" value="true" />
     <div class="rounded-md shadow-sm -space-y-px">
       <div>
@@ -95,7 +92,10 @@
         type="submit"
         :disabled="loading"
         class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        :class="{ 'cursor-not-allowed': loading, 'hover:bg-indigo-500': loading }"
+        :class="{
+          'cursor-not-allowed': loading,
+          'hover:bg-indigo-500': loading,
+        }"
       >
         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
           <LockClosedIcon
@@ -135,6 +135,7 @@ import { LockClosedIcon } from "@heroicons/vue/solid";
 import store from "../store";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
+import Alert from "../components/Alert.vue";
 
 const router = useRouter();
 
