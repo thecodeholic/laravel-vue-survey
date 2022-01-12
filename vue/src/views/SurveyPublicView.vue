@@ -10,10 +10,8 @@
           <h1 class="text-3xl">{{ survey.title }}</h1>
         </div>
       </div>
-      <pre>{{ model }}</pre>
       <div v-for="(question, ind) of survey.questions" :key="question.id">
-
-        <QuestionViewer v-model="model.questions[question.id]" :question="question" :index="ind" />
+        <QuestionViewer v-model="questions[question.id]" :question="question" :index="ind" />
       </div>
 
       <button
@@ -37,21 +35,12 @@ const store = useStore();
 const loading = computed(() => store.state.currentSurvey.loading);
 const survey = computed(() => store.state.currentSurvey.data);
 
-const defaultValue = {
-  questions: {},
-};
-console.log(survey.value.questions);
-if (survey.value.questions) {
-  for (let question of survey.value.questions) {
-    defaultValue.questions[question.id] = ''
-  }
-}
-const model = ref(defaultValue);
+const questions = ref({});
 
 store.dispatch("getSurveyBySlug", route.params.slug);
 
 function submitSurvey() {
-  console.log(JSON.stringify(model, undefined, 2));
+  console.log(JSON.stringify(questions.value, undefined, 2));
 }
 </script>
 
