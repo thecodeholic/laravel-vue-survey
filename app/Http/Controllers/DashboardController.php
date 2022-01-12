@@ -24,7 +24,7 @@ class DashboardController extends Controller
             ->join('surveys', 'survey_answers.survey_id', '=', 'surveys.id')
             ->where('surveys.user_id', $user->id)
             ->orderBy('end_date', 'DESC')
-            ->limit(3)
+            ->limit(5)
             ->getModels('survey_answers.*');
 
         return [
