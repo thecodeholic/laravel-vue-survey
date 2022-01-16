@@ -71,16 +71,7 @@
               />
               <span
                 v-else
-                class="
-                  flex
-                  items-center
-                  justify-center
-                  h-12
-                  w-12
-                  rounded-full
-                  overflow-hidden
-                  bg-gray-100
-                "
+                class="flex items-center justify-center h-12 w-12 rounded-full overflow-hidden bg-gray-100"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -97,39 +88,12 @@
               </span>
               <button
                 type="button"
-                class="
-                  relative
-                  overflow-hidden
-                  ml-5
-                  bg-white
-                  py-2
-                  px-3
-                  border border-gray-300
-                  rounded-md
-                  shadow-sm
-                  text-sm
-                  leading-4
-                  font-medium
-                  text-gray-700
-                  hover:bg-gray-50
-                  focus:outline-none
-                  focus:ring-2
-                  focus:ring-offset-2
-                  focus:ring-indigo-500
-                "
+                class="relative overflow-hidden ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 <input
                   type="file"
                   @change="onImageChoose"
-                  class="
-                    absolute
-                    left-0
-                    top-0
-                    right-0
-                    bottom-0
-                    opacity-0
-                    cursor-pointer
-                  "
+                  class="absolute left-0 top-0 right-0 bottom-0 opacity-0 cursor-pointer"
                 />
                 Change
               </button>
@@ -148,16 +112,7 @@
               id="title"
               v-model="model.title"
               autocomplete="survey_title"
-              class="
-                mt-1
-                focus:ring-indigo-500 focus:border-indigo-500
-                block
-                w-full
-                shadow-sm
-                sm:text-sm
-                border-gray-300
-                rounded-md
-              "
+              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
             />
           </div>
           <!--/ Title -->
@@ -174,16 +129,7 @@
                 rows="3"
                 v-model="model.description"
                 autocomplete="survey_description"
-                class="
-                  shadow-sm
-                  focus:ring-indigo-500 focus:border-indigo-500
-                  mt-1
-                  block
-                  w-full
-                  sm:text-sm
-                  border border-gray-300
-                  rounded-md
-                "
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
                 placeholder="Describe your survey"
               />
             </div>
@@ -202,16 +148,7 @@
               name="expire_date"
               id="expire_date"
               v-model="model.expire_date"
-              class="
-                mt-1
-                focus:ring-indigo-500 focus:border-indigo-500
-                block
-                w-full
-                shadow-sm
-                sm:text-sm
-                border-gray-300
-                rounded-md
-              "
+              class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
             />
           </div>
           <!--/ Expire Date -->
@@ -382,10 +319,14 @@ function questionChange(question) {
  * Create or update survey
  */
 function saveSurvey() {
+  let action = "created";
+  if (model.value.id) {
+    action = "updated";
+  }
   store.dispatch("saveSurvey", { ...model.value }).then(({ data }) => {
     store.commit("notify", {
       type: "success",
-      message: "The survey was successfully updated",
+      message: "The survey was successfully " + action,
     });
     router.push({
       name: "SurveyView",
