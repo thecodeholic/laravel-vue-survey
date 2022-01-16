@@ -27,15 +27,15 @@
       </div>
     </template>
     <div v-if="surveys.loading" class="flex justify-center">Loading...</div>
-    <div v-else>
-      <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
+    <div v-else-if="surveys.data.length">
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
         <SurveyListItem
           v-for="(survey, ind) in surveys.data"
           :key="survey.id"
           :survey="survey"
           class="opacity-0 animate-fade-in-down"
           :style="{ animationDelay: `${ind * 0.1}s` }"
-          @delete="deleteSurvey"
+          @delete="deleteSurvey(survey)"
         />
       </div>
       <div class="flex justify-center mt-5">
@@ -49,7 +49,7 @@
             :key="i"
             :disabled="!link.url"
             href="#"
-            @click="getForPage(link)"
+            @click="getForPage($event, link)"
             aria-current="page"
             class="relative inline-flex items-center px-4 py-2 border text-sm font-medium whitespace-nowrap"
             :class="[
@@ -65,17 +65,17 @@
         </nav>
       </div>
     </div>
+    <div v-else class="text-gray-600 text-center py-16">
+      Your don't have surveys yet
+    </div>
   </PageComponent>
 </template>
 
 <script setup>
 import store from "../store";
 import { computed } from "vue";
-import { useRouter } from "vue-router";
 import PageComponent from "../components/PageComponent.vue";
 import SurveyListItem from "../components/SurveyListItem.vue";
-
-const router = useRouter();
 
 const surveys = computed(() => store.state.surveys);
 
@@ -87,12 +87,14 @@ function deleteSurvey(survey) {
       `Are you sure you want to delete this survey? Operation can't be undone!!`
     )
   ) {
-    store.dispatch("deleteSurvey", survey.id);
+    store.dispatch("deleteSurvey", survey.id).then(() => {
+      store.dispatch("getSurveys");
+    });
   }
 }
 
-function getForPage(link) {
-  console.log(link);
+function getForPage(ev, link) {
+  ev.preventDefault();
   if (!link.url || link.active) {
     return;
   }
