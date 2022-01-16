@@ -4,6 +4,7 @@ import Surveys from "../views/Surveys.vue";
 import SurveyView from "../views/SurveyView.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import NotFound from "../views/NotFound.vue";
 import SurveyPublicView from "../views/SurveyPublicView.vue";
 import DefaultLayout from "../components/DefaultLayout.vue";
 import AuthLayout from "../components/AuthLayout.vue";
@@ -46,6 +47,11 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/404',
+    name: 'NotFound',
+    component: NotFound
+  }
 ];
 
 const router = createRouter({
