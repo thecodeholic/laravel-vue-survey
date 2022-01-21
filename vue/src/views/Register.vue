@@ -20,12 +20,33 @@
     </p>
   </div>
   <form class="mt-8 space-y-6" @submit="register">
-    <Alert v-if="Object.keys(errors).length" class="flex-col items-stretch text-sm">
-      <div v-for="(field, i) of Object.keys(errors)" :key="i">
-        <div v-for="(error, ind) of errors[field] || []" :key="ind">
-          * {{ error }}
+    <Alert v-if="Object.keys(errors).length">
+      <div class="flex-col items-stretch text-sm">
+        <div v-for="(field, i) of Object.keys(errors)" :key="i">
+          <div v-for="(error, ind) of errors[field] || []" :key="ind">
+            * {{ error }}
+          </div>
         </div>
       </div>
+      <span
+        @click="errors = ''"
+        class="w-8 h-8 flex items-center justify-center rounded-full transition-colors cursor-pointer hover:bg-[rgba(0,0,0,0.2)]"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </span>
     </Alert>
 
     <input type="hidden" name="remember" value="true" />
@@ -53,7 +74,7 @@
           required=""
           v-model="user.email"
           class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-          :class="{ 'border-red-500': errors.email, 'z-10': errors.email }"
+          :class="{ 'border-red-500/50': errors.email, 'z-10': errors.email }"
           placeholder="Email address"
         />
       </div>
@@ -68,7 +89,7 @@
           v-model="user.password"
           class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
           placeholder="Password"
-          :class="{ 'border-red-500': errors.password, 'z-10': errors.password }"
+          :class="{ 'border-red-500/50': errors.password, 'z-10': errors.password }"
         />
       </div>
       <div>
@@ -158,9 +179,7 @@ function register(ev) {
     })
     .catch((error) => {
       loading.value = false;
-      if (error.response.status === 422) {
-        errors.value = error.response.data.errors;
-      }
+      errors.value = error;
     });
 }
 </script>

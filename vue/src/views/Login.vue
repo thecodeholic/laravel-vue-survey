@@ -20,10 +20,17 @@
     </p>
   </div>
   <form class="mt-8 space-y-6" @submit="login">
-    <Alert v-if="errorMsg">
-      {{ errorMsg }}
+    <Alert v-if="errors">
+      <div class="text-sm">
+        <div v-for="(field, i) of Object.keys(errors)" :key="i">
+          <div v-for="(error, ind) of errors[field] || []" :key="ind">
+            * {{ error }}
+          </div>
+        </div>
+      </div>
+
       <span
-        @click="errorMsg = ''"
+        @click="errors = ''"
         class="w-8 h-8 flex items-center justify-center rounded-full transition-colors cursor-pointer hover:bg-[rgba(0,0,0,0.2)]"
       >
         <svg
@@ -144,7 +151,7 @@ const user = {
   password: "",
 };
 let loading = ref(false);
-let errorMsg = ref("");
+let errors = ref("");
 
 function login(ev) {
   ev.preventDefault();
@@ -158,9 +165,9 @@ function login(ev) {
         name: "Dashboard",
       });
     })
-    .catch((err) => {
+    .catch((error) => {
       loading.value = false;
-      errorMsg.value = err.response.data.error;
+      errors.value = error;
     });
 }
 </script>
