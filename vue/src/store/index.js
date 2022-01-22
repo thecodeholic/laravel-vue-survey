@@ -36,6 +36,7 @@ const store = createStore({
           return new Promise((resolve, reject) => {
             if (res.isAxiosError)
               reject(res.response.data.errors)
+
             const data = res.data
             commit('setUser', data.user);
             commit('setToken', data.token)
@@ -49,6 +50,7 @@ const store = createStore({
           return new Promise((resolve, reject) => {
             if (res.isAxiosError)
               reject(res.response.data.errors)
+
             const data = res.data
             commit('setUser', data.user);
             commit('setToken', data.token)
