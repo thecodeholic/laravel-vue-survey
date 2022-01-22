@@ -32,18 +32,30 @@ const store = createStore({
 
     register({commit}, user) {
       return axiosClient.post('/register', user)
-        .then(({data}) => {
-          commit('setUser', data.user);
-          commit('setToken', data.token)
-          return data;
-        })
+        .then(res => {
+          return new Promise((resolve, reject) => {
+            if (res.isAxiosError)
+              reject(res.response.data.errors)
+
+            const data = res.data
+            commit('setUser', data.user);
+            commit('setToken', data.token)
+            resolve()
+          })
+      })
     },
     login({commit}, user) {
       return axiosClient.post('/login', user)
-        .then(({data}) => {
-          commit('setUser', data.user);
-          commit('setToken', data.token)
-          return data;
+        .then(res => {
+          return new Promise((resolve, reject) => {
+            if (res.isAxiosError)
+              reject(res.response.data.errors)
+
+            const data = res.data
+            commit('setUser', data.user);
+            commit('setToken', data.token)
+            resolve()
+          })
         })
     },
     logout({commit}) {
