@@ -5,32 +5,27 @@
       v-else
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 text-gray-700"
     >
-      <div
-        class="bg-white shadow-md p-3 text-center flex flex-col animate-fade-in-down order-1 lg:order-2"
-        style="animation-delay: 0.1s"
-      >
-        <h3 class="text-2xl font-semibold">Total Surveys</h3>
+      <DashboardCard class="order-1 lg:order-2" style="animation-delay: 0.1s">
+        <template v-slot:title>Total Surveys</template>
         <div
           class="text-8xl pb-4 font-semibold flex-1 flex items-center justify-center"
         >
           {{ data.totalSurveys }}
         </div>
-      </div>
-      <div
-        class="bg-white shadow-md p-3 text-center flex flex-col order-2 lg:order-4 animate-fade-in-down"
-        style="animation-delay: 0.2s"
-      >
-        <h3 class="text-2xl font-semibold">Total Answers</h3>
+      </DashboardCard>
+      <DashboardCard class="order-2 lg:order-4" style="animation-delay: 0.2s">
+        <template v-slot:title>Total Answers</template>
         <div
           class="text-8xl pb-4 font-semibold flex-1 flex items-center justify-center"
         >
           {{ data.totalAnswers }}
         </div>
-      </div>
-      <div
-        class="row-span-2 animate-fade-in-down order-3 lg:order-1 bg-white shadow-md p-4"
+      </DashboardCard>
+      <DashboardCard
+        class="order-3 lg:order-1 row-span-2"
+        style="animation-delay: 0.2s"
       >
-        <h3 class="text-2xl font-semibold">Latest Survey</h3>
+        <template v-slot:title>Latest Survey</template>
         <div v-if="data.latestSurvey">
           <img
             :src="data.latestSurvey.image_url"
@@ -103,23 +98,22 @@
         <div v-else class="text-gray-600 text-center py-16">
           Your don't have surveys yet
         </div>
-      </div>
-      <div
-        class="bg-white shadow-md p-3 row-span-2 order-4 lg:order-3 animate-fade-in-down"
-        style="animation-delay: 0.3s"
-      >
-        <div class="flex justify-between items-center mb-3 px-2">
-          <h3 class="text-2xl font-semibold">Latest Answers</h3>
+      </DashboardCard>
+      <DashboardCard class="order-4 lg:order-3 row-span-2" style="animation-delay: 0.3s">
+        <template v-slot:title>
+          <div class="flex justify-between items-center mb-3 px-2">
+            <h3 class="text-2xl font-semibold">Latest Answers</h3>
 
-          <a
-            href="javascript:void(0)"
-            class="text-sm text-blue-500 hover:decoration-blue-500"
-          >
-            View all
-          </a>
-        </div>
+            <a
+              href="javascript:void(0)"
+              class="text-sm text-blue-500 hover:decoration-blue-500"
+            >
+              View all
+            </a>
+          </div>
+        </template>
 
-        <div v-if="data.latestAnswers.length">
+        <div v-if="data.latestAnswers.length" class="text-left">
           <a
             href="#"
             v-for="answer of data.latestAnswers"
@@ -136,12 +130,13 @@
         <div v-else class="text-gray-600 text-center py-16">
           Your don't have answers yet
         </div>
-      </div>
+      </DashboardCard>
     </div>
   </PageComponent>
 </template>
 
 <script setup>
+import DashboardCard from "../components/core/DashboardCard.vue";
 import PageComponent from "../components/PageComponent.vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
