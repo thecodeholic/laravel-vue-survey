@@ -54,45 +54,18 @@
             <div>{{ data.latestSurvey.answers }}</div>
           </div>
           <div class="flex justify-between">
-            <router-link
+            <TButton
               :to="{ name: 'SurveyView', params: { id: data.latestSurvey.id } }"
-              class="flex py-2 px-4 border border-transparent text-sm rounded-md text-indigo-500 hover:bg-indigo-700 hover:text-white transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              link
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                />
-              </svg>
+              <PencilIcon class="w-5 h-5 mr-2" />
               Edit Survey
-            </router-link>
+            </TButton>
 
-            <button
-              class="flex py-2 px-4 border border-transparent text-sm rounded-md text-indigo-500 hover:bg-indigo-700 hover:text-white transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 mr-2"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                <path
-                  fill-rule="evenodd"
-                  d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+            <TButton link>
+              <EyeIcon class="w-5 h-5 mr-2" />
               View Answers
-            </button>
+            </TButton>
           </div>
         </div>
         <div v-else class="text-gray-600 text-center py-16">
@@ -136,7 +109,9 @@
 </template>
 
 <script setup>
+import {EyeIcon, PencilIcon} from "@heroicons/vue/solid"
 import DashboardCard from "../components/core/DashboardCard.vue";
+import TButton from "../components/core/TButton.vue";
 import PageComponent from "../components/PageComponent.vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
