@@ -32,7 +32,7 @@ const store = createStore({
 
     register({commit}, user) {
       return axiosClient.post('/register', user)
-        .then((response) => {
+        .then(({data}) => {
           commit('setUser', data.user);
           commit('setToken', data.token)
           return data;
@@ -112,7 +112,6 @@ const store = createStore({
         });
     },
     saveSurvey({ commit, dispatch }, survey) {
-
       delete survey.image_url;
 
       let response;
