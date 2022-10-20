@@ -8,11 +8,12 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\AuthLoginRequest;
+use App\Http\Requests\AuthRegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Testing\Fluent\Concerns\Has;
-use Illuminate\Validation\Rules\Password;
 
 /**
  * Class AuthController
@@ -22,17 +23,9 @@ use Illuminate\Validation\Rules\Password;
  */
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(AuthRegisterRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|string|unique:users,email',
-            'password' => [
-                'required',
-                'confirmed',
-                Password::min(8)->mixedCase()->numbers()->symbols()
-            ]
-        ]);
+        $data = $request->validated();
 
         /** @var \App\Models\User $user */
         $user = User::create([
@@ -48,15 +41,9 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(Request $request)
+    public function login(AuthLoginRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email|string|exists:users,email',
-            'password' => [
-                'required',
-            ],
-            'remember' => 'boolean'
-        ]);
+        $credentials = $request->validated();
         $remember = $credentials['remember'] ?? false;
         unset($credentials['remember']);
 
