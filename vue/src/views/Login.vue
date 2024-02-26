@@ -24,7 +24,7 @@
       {{ errorMsg }}
       <span
         @click="errorMsg = ''"
-        class="w-8 h-8 flex items-center justify-center rounded-full transition-colors cursor-pointer hover:bg-[rgba(0,0,0,0.2)]"
+        class="w-8 h-8 flex items-center justify-center rounded-full transition-colors cursor-pointer hover:bg-[rgba0,0.2)]"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +132,9 @@ function login(ev) {
     })
     .catch((err) => {
       loading.value = false;
-      errorMsg.value = err.response.data.error;
+      if(err.response.data || err.response.data.message){
+        errorMsg.value = err.response.data.error || err.response.data.errors.email[0];
+      }
     });
 }
 </script>
